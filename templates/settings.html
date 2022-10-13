@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Microblog - settings</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css') }}">
+    <link rel="icon" href="{{url_for('static',filename='favicon.png') }}">
+  </head>
+  <body>
+    <header id="header">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <span id="sessioninfo"></span>
+    </header>
+    <h2>Settings</h2>
+    <textarea id="bio" placeholder="Your bio here...">{{bio}}</textarea>
+    <br>
+    <button id="save">Save!</button>
+    <script type="module">
+      import util from "/static/util.js";
+      util.addPostButton();
+      util.$("#save").addEventListener("click", function() {
+        fetch('/set_settings', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            bio: util.$("#bio").value,
+          })
+        }).then(res => res.json())
+        .then(res => {
+          if (res.status === "success") {
+            this.after(util.successBox(res.message));
+          } else {
+            this.after(util.errorBox(res.message));
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Create a new post</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css') }}">
+    <link rel="icon" href="{{url_for('static',filename='favicon.png') }}">
+  </head>
+  <body>
+    <header id="header">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <span id="sessioninfo"></span>
+    </header>
+    <center>
+      <textarea id="postcontent" placeholder="Your post here..."></textarea>
+      <br>
+      <button id="submit">Submit!</button>
+    </center>
+    <script src="{{url_for('static',filename='create_post.js') }}" type="module"></script>
+  </body>
+</html>

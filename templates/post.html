@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Microblog</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css') }}">
+    <link rel="icon" href="{{url_for('static',filename='favicon.png') }}">
+  </head>
+  <body>
+    <header id="header">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <span id="sessioninfo"></span>
+    </header>
+    <div id="comments"></div>
+    <center style="display:none;">
+      <textarea id="comment" placeholder="Write your comment here..."></textarea>
+      <br>
+      <button id="submit" style="width:25%;">Submit!</button>
+    </center>
+  </body>
+  <script src="{{url_for('static',filename='post.js') }}" type="module"></script>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Microblog - home</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css') }}">
+    <link rel="icon" href="{{url_for('static',filename='favicon.png') }}">
+  </head>
+  <body>
+    <header id="header">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <span id="sessioninfo"></span>
+    </header>
+    <h1>Your feed</h1>
+    <center>
+      View posts from:
+      <select id="from" disabled>
+        <option value="all">Everyone</option>
+        <option value="following">People I'm following</option>
+      </select>
+      <br>
+      Sort by:
+      <select id="sort">
+        <option value="recent">New</option>
+        <option value="top">Top</option>
+      </select>
+    </center>
+    <script src="{{url_for('static',filename='home.js') }}" type="module"></script>
+  </body>
+</html>

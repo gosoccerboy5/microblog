@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>{{username}}'s profile</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css') }}">
+    <link rel="icon" href="{{url_for('static',filename='favicon.png') }}">
+  </head>
+  <body>
+    <header id="header">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <span id="sessioninfo"></span>
+    </header>
+    <h1>Welcome to {{username}}'s profile</h1>
+    <p>Bio: {{bio}}</p>
+    <center><div id="sort">Sort: <select><option value="recent">New</option><option value="top">Top</option></select></div></center>
+  </body>
+  <script src="{{url_for('static',filename='user.js') }}" type="module"></script>
+</html>

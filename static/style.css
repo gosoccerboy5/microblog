@@ -1,0 +1,170 @@
+body {
+  background-color: beige;
+  font-family: "Helvetica Neue", "Arial", sans-serif;
+}
+h1, h2, h3 {
+  font-weight: 400;
+}
+a {
+  color: #009300;
+  text-decoration: none;
+}
+.post {
+  cursor: pointer;
+  margin: 15px;
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 15px;
+  background-color: blanchedalmond;
+  width: 35%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.post hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.post .hearts {
+  width: fit-content;
+	padding: 5px;
+	user-select: none;
+}
+.post .heart {
+  position: absolute;
+  font-size: smaller;
+}
+.post .heart:hover {
+  font-size: medium;
+}
+.post .heartcount {
+  margin-left: 22px;
+}
+.comment {
+  margin: 15px;
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 15px;
+  background-color: lightblue;
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+}
+textarea {
+  width: 25%;
+  height: 100px;
+  resize: vertical;
+}
+.error, .success {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  width: fit-content;
+}
+.error span, .success span {
+  margin-left: 15px;
+}
+.success {
+  background-color: lightgreen;
+}
+.error {
+  background-color: salmon;
+}
+.createPost * {
+	max-width: 50px;
+	background: lightblue;
+	border-radius: 1000000000000px;
+	cursor: pointer;
+	position: fixed;
+	right: 2%;
+	bottom: 5%;
+}
+#header {
+  background-color: cornflowerblue;
+  margin-left: -8px;
+  margin-top: -8px;
+  width: calc(100% + 16px);
+  padding: 20px 0px 20px 0px;
+  cursor: default;
+  user-select: none;
+}
+#header a {
+  text-decoration: none;
+  color: black;
+  font-weight: 400;
+  font-size: 17px;
+  padding: 20px 12px 20px 12px;
+  transition-duration: 0.2s;
+}
+#header a:hover {
+  background-color: #4685f7;
+}
+#sessioninfo {
+  float: right;
+}
+input, textarea {
+  outline: none;
+  border: 1px solid black;
+  margin: 5px;
+  border-radius: 5px;
+  padding: 5px;
+}
+textarea:hover:not(:focus) {
+  background-color: lightgrey;
+  transition-duration: 0.2s;
+}
+button {
+  background-color: greenyellow;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition-duration: 0.2s;
+  padding: 5px;
+  margin: 2px;
+}
+button:active {
+  background-color: #90d527;
+}
+.dialog {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 30%;
+  height: 15%;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  border: 3px solid lightgray;
+  z-index: 999;
+  font-size: 150%;
+  pointer-events: auto;
+  padding: 10px;
+}
+.dialog span {
+  font-size: 67%;
+}
+.dialog div {
+  font-weight: 600;
+}
+.dialog .ok {
+  float: right;
+  margin: 0px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-size: 80%;
+  border-radius: 100%;
+  background-color: whitesmoke;
+}
+.dialog .ok:active {
+  background-color: lightgrey;
+}
+.dialog hr {
+  border: 1px solid lightgrey;
+}
+.has-modal > *:not(.dialog){
+  pointer-events: none;
+  filter: blur(2px);
+  user-select: none;
+}
+.has-modal {
+  overflow-y: hidden;
+}

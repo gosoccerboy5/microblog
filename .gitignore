@@ -1,0 +1,11 @@
+.DS_STORE
+.config
+.replit
+replit.nix
+.breakpoints
+*.db
+venv/
+__pycache__/
+.cache/
+.config/
+.upm/

@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Followers</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css') }}">
+    <link rel="icon" href="{{url_for('static',filename='favicon.png') }}">
+  </head>
+  <body>
+    <h1>Followers</h1>
+    <script>
+      const username = window.location.href.match(/\/(@\w+)/)[1];
+      document.querySelector("h1").innerText = document.title = username + "'s followers"
+      
+      fetch("?json=true").then(res => res.json())
+        .then(all => all.forEach(user => {
+          let a = document.createElement("a");
+          a.innerText = user;
+          a.href = "/@" + user;
+          document.body.append(a);
+          document.body.append(document.createElement("br"));
+        }));
+    </script>
+  </body>
+</html>
