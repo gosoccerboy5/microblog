@@ -168,3 +168,19 @@ button:active {
 .has-modal {
   overflow-y: hidden;
 }
+code, pre {
+  margin: 5px;
+  padding: 5px;
+  background-color: #000c;
+  border-radius: 5px;
+  color: lightgrey;
+}
+pre {
+  padding: 10px;
+}
+#loadMore {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35%;
+}

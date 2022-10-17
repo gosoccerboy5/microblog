@@ -13,7 +13,8 @@
     </header>
     <h1>Welcome to {{username}}'s profile</h1>
     <p>Bio: {{bio}}</p>
-    <center><div id="sort">Sort: <select><option value="recent">New</option><option value="top">Top</option></select></div></center>
+    <center><div>Sort: <select id="sort"><option value="recent">New</option><option value="top">Top</option></select></div></center>
+    <button id="loadMore">Load more</button>
   </body>
   <script src="{{url_for('static',filename='user.js') }}" type="module"></script>
 </html>

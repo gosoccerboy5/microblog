@@ -24,6 +24,10 @@ def index():
 def about():
   return render_template("about.html")
 
+@app.get("/docs")
+def docs():
+  return render_template("docs.html")
+
 @app.get("/login")
 def login_page():
   return render_template("login.html")
@@ -80,7 +84,7 @@ def followers(user):
   c = sqlite3.connect("db/users.db")
   data = [r[0] for r in c.execute("SELECT follower FROM follows WHERE followed = ?;", (user, )).fetchall()]
   c.close()
-  if request.args.get("json"):
+  if request.args.get("json") == "true":
     return data
   return render_template("followers.html", names=json.dumps(data))
 
@@ -89,7 +93,7 @@ def following(user):
   c = sqlite3.connect("db/users.db")
   data = [r[0] for r in c.execute("SELECT followed FROM follows WHERE follower = ?;", (user, )).fetchall()]
   c.close()
-  if request.args.get("json"):
+  if request.args.get("json") == "true":
     return data
   return render_template("following.html", names=json.dumps(data))
 
@@ -120,27 +124,26 @@ def postdata(post):
 
 @app.get("/posts")
 def get_posts():
-  user = request.args.get("from")
-  sort = request.args.get("sort", default=None) or "recent"
+  user = request.args.get("from") or "all"
+  sort = request.args.get("sort") or "recent"
+  count = request.args.get("count") or "10000000000"
+  start = request.args.get("start") or "0"
   c = sqlite3.connect("db/content.db")
   all_hearts = []
   if "username" in session:
     all_hearts = [row[0] for row in c.execute("SELECT parentId FROM hearts WHERE user = ?;", (session["username"], )).fetchall()]
   posts = []
+  order_by = "(SELECT COUNT(DISTINCT user) FROM hearts h WHERE h.parentId = id)" if sort == "top" else "id"
   if user == "all":
-    posts = c.execute("SELECT * FROM posts;").fetchall()
+    posts = c.execute(f"SELECT * FROM posts ORDER BY {order_by} DESC LIMIT ?, ?;", (start, count)).fetchall()
   elif user == "following" and "username" in session:
     c.execute("ATTACH DATABASE 'db/users.db' AS user_stuff;")
-    posts = c.execute("SELECT * FROM posts WHERE author IN (SELECT followed FROM user_stuff.follows f WHERE f.follower = ?);", (session["username"], ))
+    posts = c.execute(f"SELECT * FROM posts WHERE author IN (SELECT followed FROM user_stuff.follows f WHERE f.follower = ?) ORDER BY {order_by} DESC LIMIT ?, ?;", (session["username"], start, count))
   elif user[0] == "@":
-    posts = c.execute("SELECT * FROM posts WHERE author = ?;", (user[1:], )).fetchall()
+    posts = c.execute(f"SELECT * FROM posts WHERE author = ? ORDER BY {order_by} DESC LIMIT ?, ?;", (user[1:], start, count)).fetchall()
   else:
     return error("Post feed error: invalid request"), 400
   posts = [{"id": post[0], "date": post[1], "author": post[2], "content": post[3], "hearts": c.execute("SELECT COUNT(DISTINCT user) FROM hearts WHERE parentId = ?;", (post[0], )).fetchone()[0], "hearted": post[0] in all_hearts, "comments": c.execute("SELECT COUNT(*) FROM comments WHERE parentId = ?;", (post[0], )).fetchone()[0]} for post in posts]
-  if sort == "top":
-    posts.sort(key=lambda post: -post["hearts"])
-  elif sort == "recent":
-    posts.sort(key=lambda post: -post["id"])
   c.close()
   return jsonify(posts)
 
@@ -271,4 +274,4 @@ def login():
   return success("Login successful!"), 200
 
 if __name__ == "__main__":
-  app.run(host='0.0.0.0', port=81)
+  app.run(host='0.0.0.0', port=3000)

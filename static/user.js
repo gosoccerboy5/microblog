@@ -4,15 +4,6 @@ util.addPostButton();
 
 const username = window.location.href.match(/\@([\w-]+)/)[1];
 
-function resetPosts(url) {
-  document.querySelectorAll(".post").forEach(node => node.parentElement.parentElement.removeChild(node.parentElement));
-  fetch(url)
-    .then(res => res.json())
-    .then(posts => posts.forEach(p => document.body.append(util.postTemplate(p.id, p.author, p.content, p.date, p.hearts, p.hearted, p.comments))));
-}
-
-resetPosts("/posts?from=@" + username);
-
 Promise.all([util.session, fetch("/@"+username+"/followers?json=true").then(res => res.json()), fetch("/@"+username+"/following?json=true").then(res => res.json())])
   .then(data => {
     util.$("h1").after(util.createDiv(`<a href="/@{{username}}/followers">{{followers}} followers</a> - <a href="/@{{username}}/following">{{following}} following</a>`, {username, followers: data[1].length, following: data[2].length}));    if (data[0].logged_in === false) return;
@@ -42,7 +33,33 @@ Promise.all([util.session, fetch("/@"+username+"/followers?json=true").then(res 
     util.$("p").after(followButton);
   });
 
-util.$("#sort").children[0].value = "recent";
-util.$("#sort").addEventListener("change", function() {
-  resetPosts("/posts?from=@" + username + "&sort=" + this.children[0].value);
+const loadMore = util.$("#loadMore");
+const postSetLength = 10;
+let nextPostsStart = 0;
+
+function resetPosts(url, reset=true) {
+  if (reset) {
+    nextPostsStart = 0;
+    document.querySelectorAll(".post").forEach(node => node.parentElement.parentElement.removeChild(node.parentElement));
+  }
+  loadMore.style.display = "none";
+  fetch(url)
+    .then(res => res.json())
+    .then(posts => posts.forEach(post => loadMore.before(util.postTemplate(post.id, post.author, post.content, post.date, post.hearts, post.hearted, post.comments))))
+    .then(_ => loadMore.style.display = "block");
+  nextPostsStart += postSetLength;
+}
+
+resetPosts("/posts?from=@" + username + "&count=" + postSetLength);
+
+util.$("#sort").value = "recent";
+
+let onchange = function() {
+  resetPosts("/posts?from=@" + username + "&sort=" + util.$("#sort").value + "&count=" + postSetLength);
+};
+
+loadMore.addEventListener("click", function() {
+  resetPosts("/posts?from=@" + username + "&sort=" + util.$("#sort").value + "&start=" + nextPostsStart + "&count=" + (postSetLength), false);
 });
+
+util.$("#sort").addEventListener("change", onchange);

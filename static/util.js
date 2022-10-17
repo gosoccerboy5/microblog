@@ -1,16 +1,16 @@
 const $ = document.querySelector.bind(document);
 
-function HTMLify(text, r) {
+function HTMLify(text, r={"b":"b","i":"i","strikethrough":"s"}) {
   let newText = text;
-  //BBCode
+  // BBCode
   newText = newText.replaceAll(/\[\/?(\w+?)\]/g, s => {
     let tag = s.slice(1, s.length - 1);
     if (s[1] == "/") tag = tag.slice(1);
     return r[tag] ? `<${s[1] === "/" ? "/" : ""}${r[tag]}>` : "";
   });
-  //@ symbol
-  newText = newText.replaceAll(/(\s|^)(@\w+)/g, "<a href='/$2'>$2</a>");
-  //Urls
+  // @ symbol
+  newText = newText.replaceAll(/(\s|^)(@\w+)/g, "$1<a href='/$2'>$2</a>");
+  // Urls
   newText = newText.replaceAll(/(https?:\/\/\w+(\.\w+)+(\/[^ ]*)?)/g, "<a href='$1'>$1</a>");
   return newText;
 }
@@ -126,4 +126,5 @@ export default {
   session,
   addPostButton,
   dialog,
+  HTMLify,
 };

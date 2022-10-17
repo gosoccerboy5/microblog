@@ -1,0 +1,5 @@
+*.db
+!.gitignore
+
+#This is to demonstrate that the db folder exists. However, if you want to implement this yourself
+#just add a users.db file to the db folder.
