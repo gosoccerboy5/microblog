@@ -139,6 +139,8 @@ button:active {
   font-size: 150%;
   pointer-events: auto;
   padding: 10px;
+  animation-name: dialoganimate;
+  animation-duration: 0.3s;
 }
 .dialog span {
   font-size: 67%;
@@ -158,10 +160,13 @@ button:active {
 .dialog .ok:active {
   background-color: lightgrey;
 }
+.dialog .ok:hover:not(:active) {
+  background-color: #eae9e9;
+}
 .dialog hr {
   border: 1px solid lightgrey;
 }
-.has-modal > *:not(.dialog){
+.has-modal > *:not(.dialog) {
   pointer-events: none;
   filter: blur(2px);
   user-select: none;
@@ -187,4 +192,7 @@ pre {
   left: 50%;
   transform: translateX(-50%);
   width: 35%;
+}
+@keyframes dialoganimate {
+  from {top: 0;}
 }

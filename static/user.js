@@ -6,9 +6,9 @@ const username = window.location.href.match(/\@([\w-]+)/)[1];
 
 Promise.all([util.session, fetch("/@"+username+"/followers?json=true").then(res => res.json()), fetch("/@"+username+"/following?json=true").then(res => res.json())])
   .then(data => {
-    util.$("h1").after(util.createDiv(`<a href="/@{{username}}/followers">{{followers}} followers</a> - <a href="/@{{username}}/following">{{following}} following</a>`, {username, followers: data[1].length, following: data[2].length}));    if (data[0].logged_in === false) return;
+    util.$("h1").after(util.createElement(`<div><a href="/@{{username}}/followers">{{followers}} followers</a> - <a href="/@{{username}}/following">{{following}} following</a></div>`, {username, followers: data[1].length, following: data[2].length}));    if (data[0].logged_in === false) return;
     let following = data[1].includes(data[0].username);
-    const followButton = util.createDiv(`<button id="follow">{{following}}</button>`, {following: following ? "Following" : "Follow"});
+    const followButton = util.createElement(`<button id="follow">{{following}}</button>`, {following: following ? "Following" : "Follow"});
     const btn = followButton.querySelector("button");
     followButton.addEventListener("click", function() {
       fetch('/followaction', {
@@ -40,7 +40,7 @@ let nextPostsStart = 0;
 function resetPosts(url, reset=true) {
   if (reset) {
     nextPostsStart = 0;
-    document.querySelectorAll(".post").forEach(node => node.parentElement.parentElement.removeChild(node.parentElement));
+    document.querySelectorAll(".post").forEach(node => node.parentElement.removeChild(node));
   }
   loadMore.style.display = "none";
   fetch(url)

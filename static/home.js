@@ -10,10 +10,12 @@ const loadMore = util.$("#loadMore");
 const postSetLength = 10;
 let nextPostsStart = 0;
 
+console.log(util);
+
 function resetPosts(url, reset=true) {
   if (reset) {
     nextPostsStart = 0;
-    document.querySelectorAll(".post").forEach(node => node.parentElement.parentElement.removeChild(node.parentElement));
+    document.querySelectorAll(".post").forEach(node => node.parentElement.removeChild(node));
   }
   loadMore.style.display = "none";
   fetch(url)
