@@ -8,6 +8,7 @@ h1, h2, h3 {
 a {
   color: #009300;
   text-decoration: none;
+  cursor: pointer;
 }
 .post {
   cursor: pointer;
@@ -170,10 +171,13 @@ button:active {
 }
 code, pre {
   margin: 5px;
-  padding: 5px;
   background-color: #000c;
   border-radius: 5px;
   color: lightgrey;
+}
+code {
+  font-size: 0.75em;
+  padding: 2px;
 }
 pre {
   padding: 10px;

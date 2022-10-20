@@ -36,6 +36,10 @@ def login_page():
 def create_post_page():
   return render_template("new.html")
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 @app.get("/settings")
 def settings_page():
   if "username" in session:
@@ -69,7 +73,10 @@ def user_page(user):
 
 @app.get("/post/<post>")
 def post_viewer(post):
-  return render_template("post.html")
+  c = sqlite3.connect("db/content.db")
+  exists = int(c.execute("SELECT COUNT(*) FROM posts WHERE id = ?;", (post, )).fetchone()[0]) > 0
+  c.close()
+  return render_template("post.html") if exists else render_template("404.html")
 
 @app.get('/session')
 def check_session():
@@ -224,7 +231,7 @@ def create_comment():
   if len(content) == 0:
     return error("Comment creation failure: comment cannot be empty"), 400
   if len(content) > 200:
-    return error("Comment creation failure: post invalid (length may be too long"), 400
+    return error("Comment creation failure: comment invalid (length may be too long"), 400
   if content.count("\n") >= 5:
     return error("Comment creation failure: exceeds max linebreak limit"), 400
   c = sqlite3.connect("db/content.db")

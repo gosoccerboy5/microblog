@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Microblog - 404</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css') }}">
+    <link rel="icon" href="{{url_for('static',filename='favicon.png') }}">
+  </head>
+  <body>
+    <header id="header">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <span id="sessioninfo"></span>
+    </header>
+    <h1>404 - error</h1>
+    <span id="requestedresource" style="font-size:1.25em;">The requested resource (<code style="font-size:0.8em;">#</code>) could not found on the server. It could be a typo in the url, or nonexistent content.</span>
+    <br>
+    <br>
+    <a href="/">Home</a>
+    <br>
+    <a onclick="window.history.back()">Go back to where you were</a>
+    <br>
+    <small><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404">What does '404' mean?</a></small>
+    <script type="module">
+      import util from "../static/util.js";
+
+      let temp = util.$("#requestedresource code");
+      temp.innerText = temp.innerText.replace("#", document.location.pathname);
+    </script>
+</html>
