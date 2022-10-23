@@ -8,5 +8,3 @@ __pycache__/
 .cache/
 .config/
 .upm/
-templates/docs.html 
-# ^ coming soon!

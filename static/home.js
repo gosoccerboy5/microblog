@@ -10,8 +10,6 @@ const loadMore = util.$("#loadMore");
 const postSetLength = 10;
 let nextPostsStart = 0;
 
-console.log(util);
-
 function resetPosts(url, reset=true) {
   if (reset) {
     nextPostsStart = 0;

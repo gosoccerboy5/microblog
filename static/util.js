@@ -2,16 +2,19 @@ const $ = document.querySelector.bind(document);
 
 function HTMLify(text, r={"b":"b","i":"i","strikethrough":"s"}) {
   let newText = text;
+  //images
+  newText = newText.replaceAll(/\[img](https?:\/\/\w+(\.\w+)+(\/[^ ]*)?)\[\/img]/g, "<img src='$1' style='max-width:90%'>");
+  // Urls
+  newText = newText.replaceAll(/\[url=(https?:\/\/\w+(?:\.\w+)+(?:\/[^ ]*)?)\](.*?)\[\/url\]/g, "<a href='$1'>$2</a>");
+  console.log(newText)
+  // @ symbol
+  newText = newText.replaceAll(/(\s|^)(@\w+)/g, "$1<a href='/$2'>$2</a>");
   // BBCode
   newText = newText.replaceAll(/\[\/?(\w+?)\]/g, s => {
     let tag = s.slice(1, s.length - 1);
     if (s[1] == "/") tag = tag.slice(1);
     return r[tag] ? `<${s[1] === "/" ? "/" : ""}${r[tag]}>` : "";
   });
-  // @ symbol
-  newText = newText.replaceAll(/(\s|^)(@\w+)/g, "$1<a href='/$2'>$2</a>");
-  // Urls
-  newText = newText.replaceAll(/(https?:\/\/\w+(\.\w+)+(\/[^ ]*)?)/g, "<a href='$1'>$1</a>");
   return newText;
 }
 
@@ -38,8 +41,6 @@ const dialog = function(message) {
   });
 };
 
-const replacements = {"b":"b","i":"i","strikethrough":"s"};
-
 const postTemplate = function(id, author, content, date, hearts, hearted, comments) {
   let div = createElement(`<div class="post" title="{{date}}">
     <a href="/@{{author}}">@{{author}}</a>
@@ -50,7 +51,7 @@ const postTemplate = function(id, author, content, date, hearts, hearted, commen
     <hr>
     <span class="hearts" title="Likes"><span class="heart">🖤</span> <span class="heartcount">{{hearts}}</span></span>
     <span class="comments" title="Comments">💬 {{comments}}</span>
-  </div>`, {author, content: HTMLify(content, replacements), hearts, date, id, comments}, false);
+  </div>`, {author, content: HTMLify(content), hearts, date, id, comments}, false);
   if (hearted) div.querySelector(".heart").innerText = "❤️";
   div.addEventListener("click", function(event) {
     if (event.target.className !== "hearts" && event.target.parentElement.className !== "hearts") {
@@ -90,7 +91,7 @@ const commentTemplate = function(id, author, content, date) {
     <div class="content">
       {{content}}
     </div>
-  </div>`, {id, author, content: HTMLify(content, replacements), date}, false);
+  </div>`, {id, author, content: HTMLify(content), date}, false);
 }
 
 const errorBox = function(message) {
