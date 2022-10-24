@@ -1,6 +1,6 @@
 const $ = document.querySelector.bind(document);
 
-function HTMLify(text, r={"b":"b","i":"i","strikethrough":"s"}) {
+function HTMLify(text, r={"b":"b","i":"i","strikethrough":"s","spoiler":"span class='spoiler'"}) {
   let newText = text;
   //images
   newText = newText.replaceAll(/\[img](https?:\/\/\w+(\.\w+)+(\/[^ ]*)?)\[\/img]/g, "<img src='$1' style='max-width:90%'>");
@@ -54,7 +54,7 @@ const postTemplate = function(id, author, content, date, hearts, hearted, commen
   </div>`, {author, content: HTMLify(content), hearts, date, id, comments}, false);
   if (hearted) div.querySelector(".heart").innerText = "❤️";
   div.addEventListener("click", function(event) {
-    if (event.target.className !== "hearts" && event.target.parentElement.className !== "hearts") {
+    if (event.target.className !== "hearts" && event.target.parentElement.className !== "hearts" && !event.target.parentNode.className.includes("content")) {
       window.location.href = '/post/' + String(id);
     }
   });
@@ -116,6 +116,12 @@ createPost.addEventListener("click", function() {
 });
 
 const addPostButton = () => session.then(res => {if (res.logged_in) document.body.append(createPost)});
+
+document.addEventListener("click", function(event) {
+  if (event.target.className.includes("spoiler") && !event.target.className.includes("opened")) {
+    event.target.className += " opened";
+  }
+});
 
 export default {
   createElement,

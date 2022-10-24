@@ -196,3 +196,16 @@ pre {
 @keyframes dialoganimate {
   from {top: 0;}
 }
+.spoiler {
+  background-color: grey;
+  color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 3px;
+}
+.spoiler.opened {
+  background-color: lightgrey;
+  color: inherit;
+  cursor: text;
+  transition-duration: 1s;
+}

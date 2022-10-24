@@ -22,5 +22,6 @@ btn.addEventListener("click", function() {
 });
 
 util.$("#question").addEventListener("click", function() {
-  util.dialog("You can @ another user to link to their profile, and use a limited subset of BBCode tags ([b]bold[/b], [i]italic[/i], [s]strikethrough[/s], [img]https://example.com/img.png[/img], [url=https://example.com]Link![/url])")
-})
+  const msg = "You can @ another user to link to their profile, and use a limited subset of BBCode tags ([b]bold[/b], [i]italic[/i], [s]strikethrough[/s], [spoiler]spoiler![/spoiler], [img]https://example.com/img.png[/img], [url=https://example.com]Link![/url])";
+  util.dialog(msg);
+});
