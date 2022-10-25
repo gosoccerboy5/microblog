@@ -209,3 +209,8 @@ pre {
   cursor: text;
   transition-duration: 1s;
 }
+.timestamp {
+  color: grey;
+  font-style: italic;
+  font-size: 0.9em;
+}

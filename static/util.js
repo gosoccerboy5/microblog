@@ -41,8 +41,31 @@ const dialog = function(message) {
   });
 };
 
+function ago(date) {
+  let ms = Date.now() - date, seconds = ms/1000, minutes = seconds/60, hours = minutes/60, days = hours/24,  months = days/30, years = months/12;
+  let unit, count;
+  if (years > 1) {
+    count = years; unit = "year";
+  } else if (months > 1) {
+    count = months; unit = "month";
+  } else if (days > 1) {
+    count = days; unit = "day";
+  } else if (hours > 1) {
+    count = hours; unit = "hour";
+  } else if (minutes > 1) {
+    count = minutes; unit = "minute";
+  } else if (seconds > 10) {
+    count = seconds; unit = "second";
+  } else return "just now";
+  return `${Math.floor(count)} ${unit}${count > 2 ? "s" : ""} ago`;
+}
+const localeDateOptions = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'};
+
 const postTemplate = function(id, author, content, date, hearts, hearted, comments) {
-  let div = createElement(`<div class="post" title="{{date}}">
+  date = new Date(Number(date));
+  let fromNow = ago(date.getTime());
+  date = date.toLocaleString("en-US", localeDateOptions);
+  let div = createElement(`<div class="post">
     <a href="/@{{author}}">@{{author}}</a>
     <hr>
     <div class="content">
@@ -51,7 +74,8 @@ const postTemplate = function(id, author, content, date, hearts, hearted, commen
     <hr>
     <span class="hearts" title="Likes"><span class="heart">🖤</span> <span class="heartcount">{{hearts}}</span></span>
     <span class="comments" title="Comments">💬 {{comments}}</span>
-  </div>`, {author, content: HTMLify(content), hearts, date, id, comments}, false);
+    <span title="{{date}}" class="timestamp">  Posted {{fromNow}}</span>
+  </div>`, {author, content: HTMLify(content), hearts, date, id, comments, fromNow}, false);
   if (hearted) div.querySelector(".heart").innerText = "❤️";
   div.addEventListener("click", function(event) {
     if (event.target.className !== "hearts" && event.target.parentElement.className !== "hearts" && !event.target.parentNode.className.includes("content")) {
@@ -85,13 +109,18 @@ const postTemplate = function(id, author, content, date, hearts, hearted, commen
 };
 
 const commentTemplate = function(id, author, content, date) {
-  return createElement(`<div class="comment" title="{{date}}" id="comment-{{id}}">
+  date = new Date(Number(date));
+  let fromNow = ago(date.getTime());
+  date = date.toLocaleString("en-US", localeDateOptions);
+  return createElement(`<div class="comment" id="comment-{{id}}">
     <a href="/@{{author}}">@{{author}}</a>
     <hr>
     <div class="content">
       {{content}}
     </div>
-  </div>`, {id, author, content: HTMLify(content), date}, false);
+    <hr>
+    <span class="timestamp" title="{{date}}">Commented {{fromNow}}</span>
+  </div>`, {id, author, content: HTMLify(content), date, fromNow}, false);
 }
 
 const errorBox = function(message) {

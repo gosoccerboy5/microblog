@@ -1,5 +1,4 @@
-import os, bcrypt, re, sqlite3, json
-from datetime import datetime, timezone
+import os, bcrypt, re, sqlite3, json, time
 from flask import Flask, request, session, render_template, jsonify, redirect
 import tables
 
@@ -10,7 +9,7 @@ app.secret_key = os.urandom(24).hex()
 def sanitize(string):
   return string.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>")
 def get_date():
-  return re.sub(r"\.\d+.*$", " UTC", str(datetime.now(timezone.utc)))
+  return round(time.time() * 1000)
 def error(msg):
   return {"status": "error", "message": msg}
 def success(msg):
