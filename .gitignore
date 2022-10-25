@@ -2,7 +2,6 @@
 .config
 .replit
 replit.nix
-.breakpoints
 venv/
 __pycache__/
 .cache/
