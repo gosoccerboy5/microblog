@@ -6,7 +6,6 @@ function HTMLify(text, r={"b":"b","i":"i","strikethrough":"s","spoiler":"span cl
   newText = newText.replaceAll(/\[img](https?:\/\/\w+(\.\w+)+(\/[^ ]*)?)\[\/img]/g, "<img src='$1' style='max-width:90%'>");
   // Urls
   newText = newText.replaceAll(/\[url=(https?:\/\/\w+(?:\.\w+)+(?:\/[^ ]*)?)\](.*?)\[\/url\]/g, "<a href='$1'>$2</a>");
-  console.log(newText)
   // @ symbol
   newText = newText.replaceAll(/(\s|^)(@\w+)/g, "$1<a href='/$2'>$2</a>");
   // BBCode

@@ -23,10 +23,6 @@ def index():
 def about():
   return render_template("about.html")
 
-@app.get("/docs")
-def docs():
-  return render_template("docs.html")
-
 @app.get("/login")
 def login_page():
   return render_template("login.html")

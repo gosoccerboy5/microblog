@@ -9,7 +9,6 @@ Promise.all([util.session, fetch("/@"+username+"/followers?json=true").then(res 
     util.$("h1").after(util.createElement(`<div><a href="/@{{username}}/followers">{{followers}} followers</a> - <a href="/@{{username}}/following">{{following}} following</a></div>`, {username, followers: data[1].length, following: data[2].length}));    if (data[0].logged_in === false) return;
     let following = data[1].includes(data[0].username);
     const followButton = util.createElement(`<button id="follow">{{following}}</button>`, {following: following ? "Following" : "Follow"});
-    const btn = followButton.querySelector("button");
     followButton.addEventListener("click", function() {
       fetch('/followaction', {
         method: 'POST',
@@ -23,9 +22,9 @@ Promise.all([util.session, fetch("/@"+username+"/followers?json=true").then(res 
           alert(res.message);
         } else {
           if (res.message === "followed") {
-            btn.innerText = "Following";
+            followButton.innerText = "Following";
           } else {
-            btn.innerText = "Follow";
+            followButton.innerText = "Follow";
           }
         }
       });
