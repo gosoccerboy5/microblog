@@ -1,5 +1,4 @@
-content.db
-users.db
+*.db
 !.gitignore
 
 #This is to demonstrate that the db folder exists.
