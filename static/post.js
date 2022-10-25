@@ -18,6 +18,7 @@ fetch("/postdata/" + postId)
   });
 
 util.$("#submit").addEventListener("click", function() {
+  console.log("here")
   fetch('/createcomment', {
     method: 'POST',
     headers: {

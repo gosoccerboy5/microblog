@@ -61,6 +61,42 @@ function ago(date) {
 }
 const localeDateOptions = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'};
 
+const dialog = function(message) {
+  let div = createElement(`<div><button class="ok">✖</button><div>Alert</div><hr><span>{{message}}</span><div>`, {message});
+  div.className = "dialog";
+  document.body.append(div);
+  document.body.className = "has-modal";
+  return new Promise(resolve => {
+    div.querySelector(".ok").addEventListener("click", function() {
+      div.parentElement.removeChild(div);
+      document.body.className = document.body.className.replace(/\bhas-modal\b/, "");
+      resolve();
+    });
+  });
+};
+
+function ago(date) {
+  let ms = Date.now() - date, seconds = ms/1000, minutes = seconds/60, hours = minutes/60, days = hours/24,  months = days/30, years = months/12;
+  let unit, count;
+  if (years > 1) {
+    count = years; unit = "year";
+  } else if (months > 1) {
+    count = months; unit = "month";
+  } else if (days > 1) {
+    count = days; unit = "day";
+  } else if (hours > 1) {
+    count = hours; unit = "hour";
+  } else if (minutes > 1) {
+    count = minutes; unit = "minute";
+  } else if (seconds > 10) {
+    count = seconds; unit = "second";
+  } else return "just now";
+  return `${Math.floor(count)} ${unit}${count > 2 ? "s" : ""} ago`;
+}
+const localeDateOptions = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'};
+
+const replacements = {"b":"b","i":"i","strikethrough":"s"};
+
 const postTemplate = function(id, author, content, date, hearts, hearted, comments) {
   date = new Date(Number(date));
   let fromNow = ago(date.getTime());

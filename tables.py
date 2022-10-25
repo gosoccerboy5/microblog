@@ -5,6 +5,9 @@ CLEAR_ALL = False
 c = sqlite3.connect("db/users.db")
 c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, pwhash TEXT, salt TEXT, bio TEXT);")
 c.execute("CREATE TABLE IF NOT EXISTS follows (follower TEXT, followed TEXT);")
+if CLEAR_ALL:
+  c.execute("DELETE FROM users;")
+  c.execute("DELETE FROM follows;")
 c.commit()
 c.close()
 
